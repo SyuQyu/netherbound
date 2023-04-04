@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1257751387025974306}
   - component: {fileID: 6688750828993215675}
   - component: {fileID: 4762163554691226255}
+  - component: {fileID: 5332555492781550554}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -103,7 +104,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -121,7 +122,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 354e69e337ff0054a9013bdeef054130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 3
+  runSpeed: 4
+  _isMoving: 0
+  _isFacingRight: 1
 --- !u!114 &6688750828993215675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,3 +240,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!70 &5332555492781550554
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3047793408423003915}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.007544756, y: -0.050657682}
+  m_Size: {x: 0.19809252, y: 0.5386846}
+  m_Direction: 0

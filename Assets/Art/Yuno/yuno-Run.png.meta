@@ -120,10 +120,10 @@ TextureImporter:
       name: yuno-Run_0
       rect:
         serializedVersion: 2
-        x: 7
+        x: 0
         y: 0
-        width: 44
-        height: 40
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,10 +141,10 @@ TextureImporter:
       name: yuno-Run_1
       rect:
         serializedVersion: 2
-        x: 72
+        x: 64
         y: 0
-        width: 47
-        height: 40
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,10 +162,10 @@ TextureImporter:
       name: yuno-Run_2
       rect:
         serializedVersion: 2
-        x: 134
+        x: 128
         y: 0
-        width: 40
-        height: 41
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,10 +183,10 @@ TextureImporter:
       name: yuno-Run_3
       rect:
         serializedVersion: 2
-        x: 199
+        x: 192
         y: 0
-        width: 39
-        height: 42
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,10 +204,10 @@ TextureImporter:
       name: yuno-Run_4
       rect:
         serializedVersion: 2
-        x: 263
+        x: 256
         y: 0
-        width: 46
-        height: 42
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -225,10 +225,10 @@ TextureImporter:
       name: yuno-Run_5
       rect:
         serializedVersion: 2
-        x: 330
+        x: 320
         y: 0
-        width: 44
-        height: 43
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -246,10 +246,10 @@ TextureImporter:
       name: yuno-Run_6
       rect:
         serializedVersion: 2
-        x: 395
+        x: 384
         y: 0
-        width: 35
-        height: 41
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -267,10 +267,10 @@ TextureImporter:
       name: yuno-Run_7
       rect:
         serializedVersion: 2
-        x: 457
+        x: 448
         y: 0
-        width: 37
-        height: 40
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
