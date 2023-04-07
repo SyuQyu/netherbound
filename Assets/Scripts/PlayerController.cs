@@ -1,11 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections))]
 public class PlayerController : MonoBehaviour
 {
     public float runSpeed = 5f;
+    public float jumpImpulse = 10f;
+    public float airWalkSpeed = 3f;
     Vector2 moveInput;
+    TouchingDirections touchingDirections;
 
     [SerializeField] private bool _isMoving = false;
 
@@ -16,6 +19,31 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        touchingDirections = GetComponent<TouchingDirections>();
+    }
+
+    //Biar ga stuck di tembok pas loncat
+    public float StateSpeed
+    {
+        get
+        {
+            if (!touchingDirections.IsOnWall)
+            {
+                if (touchingDirections.IsGrounded)
+                {
+                    return runSpeed;
+                }
+                else
+                {
+                    //air move
+                    return airWalkSpeed;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 
     public bool IsMoving
@@ -57,7 +85,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(moveInput.x * runSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(moveInput.x * StateSpeed, rb.velocity.y);
+        animator.SetFloat(AnimationStrings.yVelocity, rb.velocity.y);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -80,6 +109,16 @@ public class PlayerController : MonoBehaviour
         {
             // menghadap ke kiri
             IsFacingRight = false;
+        }
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        // TODO Check if alive as well
+        if (context.started && touchingDirections.IsGrounded)
+        {
+            animator.SetTrigger(AnimationStrings.jump);
+            rb.velocity = new Vector2(rb.velocity.x, jumpImpulse);
         }
     }
 }
