@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                return 0;
+                return runSpeed;
             }
         }
     }
