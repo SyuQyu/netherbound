@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class setBoolBehavior : StateMachineBehaviour
+public class SetBoolBehaviour : StateMachineBehaviour
 {
     public string boolName;
     
@@ -64,6 +62,5 @@ public class setBoolBehavior : StateMachineBehaviour
         {
             animator.SetBool(boolName, valueOnExit);  
         }
-
     }
 }

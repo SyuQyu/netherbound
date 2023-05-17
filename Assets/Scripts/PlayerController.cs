@@ -15,6 +15,11 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     private Animator animator;
 
+    public bool CanMove
+    {
+        get { return animator.GetBool(AnimationStrings.canMove); }
+    }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -23,24 +28,32 @@ public class PlayerController : MonoBehaviour
     }
 
     //Biar ga stuck di tembok pas loncat
-    public float StateSpeed
+    public float CurrentMoveSpeed
     {
         get
         {
-            if (!touchingDirections.IsOnWall)
+            if (CanMove)
             {
-                if (touchingDirections.IsGrounded)
+                if (!touchingDirections.IsOnWall)
                 {
-                    return runSpeed;
+                    if (touchingDirections.IsGrounded)
+                    {
+                        return runSpeed;
+                    }
+                    else
+                    {
+                        //air move
+                        return airWalkSpeed;
+                    }
                 }
                 else
                 {
-                    //air move
-                    return airWalkSpeed;
+                    return 0;
                 }
             }
             else
             {
+                // Movement locked
                 return 0;
             }
         }
@@ -85,7 +98,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(moveInput.x * StateSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(moveInput.x * CurrentMoveSpeed, rb.velocity.y);
         animator.SetFloat(AnimationStrings.yVelocity, rb.velocity.y);
     }
 
@@ -115,10 +128,18 @@ public class PlayerController : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         // TODO Check if alive as well
-        if (context.started && touchingDirections.IsGrounded)
+        if (context.started && touchingDirections.IsGrounded && CanMove)
         {
-            animator.SetTrigger(AnimationStrings.jump);
+            animator.SetTrigger(AnimationStrings.jumpTrigger);
             rb.velocity = new Vector2(rb.velocity.x, jumpImpulse);
+        }
+    }
+
+    public void onAttack(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            animator.SetTrigger(AnimationStrings.attackTrigger);
         }
     }
 }
