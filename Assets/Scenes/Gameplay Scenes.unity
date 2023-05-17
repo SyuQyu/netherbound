@@ -8565,6 +8565,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8306551422107134864, guid: 7c87956bd24d30e4c90bf587084a95d3, type: 3}
+      propertyPath: m_Size.x
+      value: 2.325584
+      objectReference: {fileID: 0}
+    - target: {fileID: 8306551422107134864, guid: 7c87956bd24d30e4c90bf587084a95d3, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.15331674
+      objectReference: {fileID: 0}
     - target: {fileID: 8984793627384926721, guid: 7c87956bd24d30e4c90bf587084a95d3, type: 3}
       propertyPath: m_Name
       value: UndeadEnemy
