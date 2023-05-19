@@ -542,6 +542,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14e331fa782192e42b599f2a530f8659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1294449476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1046760993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69f27cd8af22db64fb89c8d4198d90d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 0
+  _health: 100
+  _isAlive: 1
+  isInvicible: 0
+  invincibilityTime: 0.25
 --- !u!1 &1561448415
 GameObject:
   m_ObjectHideFlags: 0
@@ -8527,7 +8544,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 432799789141637748, guid: 7c87956bd24d30e4c90bf587084a95d3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.383913
+      value: -10.76
       objectReference: {fileID: 0}
     - target: {fileID: 432799789141637748, guid: 7c87956bd24d30e4c90bf587084a95d3, type: 3}
       propertyPath: m_LocalPosition.y
