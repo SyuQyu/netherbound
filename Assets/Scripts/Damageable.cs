@@ -33,6 +33,7 @@ public class Damageable : MonoBehaviour
     [SerializeField] private bool _isAlive = true;
 
     [SerializeField] private bool isInvicible = false;
+
     private float timeSinceHit = 0f;
     public float invincibilityTime = 0.25f;
 
@@ -44,6 +45,16 @@ public class Damageable : MonoBehaviour
             _isAlive = value;
             animator.SetBool(AnimationStrings.isAlive, value);
         }
+    }
+    
+    /*
+     * The velocity should not be changed while this is true but needs to respected by other physics components
+     * like the player controller
+     */
+    public bool LockVelocity
+    {
+        get { return animator.GetBool(AnimationStrings.lockVelocity); }
+        set { animator.SetBool(AnimationStrings.lockVelocity, value); }
     }
 
     private void Awake()
@@ -65,7 +76,7 @@ public class Damageable : MonoBehaviour
             timeSinceHit += Time.deltaTime;
         }
     }
-    
+
     // Mengembalikan nilai apakah damageable kena serangan atau tidak
     public bool Hit(int damage, Vector2 knocback)
     {
@@ -73,10 +84,12 @@ public class Damageable : MonoBehaviour
         {
             Health -= damage;
             isInvicible = true;
-            
+
             // Notify other subscribed components that damageable was hit to handle the knockback and such
-            damageableHit.Invoke(damage, knocback);
-            
+            animator.SetTrigger(AnimationStrings.hitTrigger);
+            LockVelocity = true;
+            damageableHit?.Invoke(damage, knocback);
+
             return true;
         }
 

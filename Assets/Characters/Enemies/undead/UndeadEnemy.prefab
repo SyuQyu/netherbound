@@ -98,7 +98,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4847877479369492894}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.6, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -130,16 +130,16 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 2.2349167, y: -0.36081553}
-      - {x: 1.8055305, y: 0.53899354}
-      - {x: 0.5488195, y: 1.5009722}
-      - {x: 1.3300247, y: 0.78854793}
-      - {x: 1.7572241, y: 0.20929071}
-      - {x: 1.7240133, y: -0.11113769}
-      - {x: 1.5457363, y: -0.25153744}
-      - {x: 1.0312867, y: -0.3123691}
-      - {x: 1.0744997, y: -0.4911623}
-      - {x: 2.0734816, y: -0.63461405}
+    - - {x: 0.65269184, y: -0.36081553}
+      - {x: 0.24108315, y: 0.5389936}
+      - {x: -1.0422926, y: 1.5009722}
+      - {x: -0.46553326, y: 0.957436}
+      - {x: 0.121665955, y: 0.2270672}
+      - {x: 0.13290024, y: -0.12002593}
+      - {x: -0.1342659, y: -0.26931393}
+      - {x: -0.8264947, y: -0.27681231}
+      - {x: -0.68550336, y: -0.4200487}
+      - {x: 0.44681263, y: -0.6435023}
 --- !u!114 &649666099095258077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackDamage: 10
+  knockback: {x: 5, y: 2}
 --- !u!1 &8984793627384926721
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,7 +296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 3
-  walkStopRate: 0.01
+  walkStopRate: 0.05
   attackZone: {fileID: 3183916776141601817}
   _hasTarget: 0
 --- !u!114 &-5520091472350323947
@@ -363,6 +364,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69f27cd8af22db64fb89c8d4198d90d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageableHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5164030472356629565}
+        m_TargetAssemblyTypeName: UndeadEnemy, Assembly-CSharp
+        m_MethodName: OnHit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _maxHealth: 100
   _health: 100
   _isAlive: 1

@@ -10,4 +10,7 @@
     internal static string canMove = "canMove";
     internal static string hasTarget = "hasTarget";
     internal static string isAlive = "isAlive";
+    public static string isHit = "isHit";
+    public static string hitTrigger = "hit";
+    public static string lockVelocity = "lockVelocity";
 }
