@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class Damageable : MonoBehaviour
 {
+    public UnityEvent<int, Vector2> damageableHit;
     private Animator animator;
     [SerializeField] private int _maxHealth = 100;
 
@@ -21,7 +23,7 @@ public class Damageable : MonoBehaviour
             _health = value;
 
             // If health drops below 0, character is no longer alive
-            if (_health < 0)
+            if (_health <= 0)
             {
                 IsAlive = false;
             }
@@ -62,16 +64,22 @@ public class Damageable : MonoBehaviour
 
             timeSinceHit += Time.deltaTime;
         }
-        
-        Hit(10);
     }
-
-    public void Hit(int damage)
+    
+    // Mengembalikan nilai apakah damageable kena serangan atau tidak
+    public bool Hit(int damage, Vector2 knocback)
     {
         if (IsAlive && !isInvicible)
         {
             Health -= damage;
             isInvicible = true;
+            
+            // Notify other subscribed components that damageable was hit to handle the knockback and such
+            damageableHit.Invoke(damage, knocback);
+            
+            return true;
         }
+
+        return false;
     }
 }
