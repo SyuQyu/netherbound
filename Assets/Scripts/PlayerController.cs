@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -110,11 +111,11 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-        
+
         if (IsAlive)
         {
             IsMoving = moveInput != Vector2.zero;
-        
+
             SetFacingDirection(moveInput);
         }
         else
