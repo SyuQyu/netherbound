@@ -13,4 +13,5 @@
     public static string isHit = "isHit";
     public static string hitTrigger = "hit";
     public static string lockVelocity = "lockVelocity";
+    internal static string attackCooldown = "attackCooldown";
 }
