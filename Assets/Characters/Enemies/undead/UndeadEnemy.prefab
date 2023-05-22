@@ -260,6 +260,7 @@ GameObject:
   - component: {fileID: -5520091472350323947}
   - component: {fileID: 2054177463944277604}
   - component: {fileID: 3365574359051036294}
+  - component: {fileID: 7210954572035986715}
   m_Layer: 9
   m_Name: UndeadEnemy
   m_TagString: Untagged
@@ -390,6 +391,21 @@ MonoBehaviour:
   walkStopRate: 0.05
   attackZone: {fileID: 3183916776141601817}
   cliffDetectionZone: {fileID: 7570194054062518888}
+  onDied:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7210954572035986715}
+        m_TargetAssemblyTypeName: SoulSpawn, Assembly-CSharp
+        m_MethodName: Reward
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _hasTarget: 0
 --- !u!114 &-5520091472350323947
 MonoBehaviour:
@@ -476,3 +492,18 @@ MonoBehaviour:
   _isAlive: 1
   isInvicible: 0
   invincibilityTime: 0.25
+--- !u!114 &7210954572035986715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8984793627384926721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4338d69f8538e0b48b484c77402e9589, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimumCount: 3
+  maximumCount: 5
+  prefab: {fileID: 3384341370989663805, guid: 6a3f72bd16f3b2340817981228008415, type: 3}

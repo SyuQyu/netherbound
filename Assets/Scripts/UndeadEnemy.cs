@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections), typeof(Damageable))]
 public class UndeadEnemy : MonoBehaviour
@@ -10,7 +11,10 @@ public class UndeadEnemy : MonoBehaviour
     public float walkStopRate = 0.01f;
     public DetectionZone attackZone;
     public DetectionZone cliffDetectionZone;
-
+    public bool die = true;
+    [SerializeField]
+    private UnityEvent onDied;
+    
     private Rigidbody2D rb;
     private TouchingDirections touchingDirections;
     private Animator animator;
@@ -20,6 +24,18 @@ public class UndeadEnemy : MonoBehaviour
     {
         Right,
         Left
+    }
+    
+    public UnityEvent DiedEvent {
+        get { return this.onDied; }
+    }
+    
+    private void OnDiedEvent()
+    {
+        var handler = this.onDied;
+        if (handler != null) {
+            handler.Invoke();
+        }
     }
 
     private WalkableDirection _walkDirection;
@@ -97,7 +113,13 @@ public class UndeadEnemy : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {
+    {        
+        if (!damageable.IsAlive && die)
+        {
+            this.OnDiedEvent();
+            die = false;
+        }
+        
         if (touchingDirections.IsGrounded && touchingDirections.IsOnWall)
         {
             FlipDirection();
@@ -140,4 +162,6 @@ public class UndeadEnemy : MonoBehaviour
             FlipDirection();
         }
     }
+    
+    
 }
