@@ -1,12 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Threading;
+using UnityEngine;
 using UnityEngine.Events;
+
+
 
 public class Damageable : MonoBehaviour
 {
+    public GameOverScript gameOverScreen;
     public UnityEvent<int, Vector2> damageableHit;
     private Animator animator;
     [SerializeField] private int _maxHealth = 100;
     public UnityEvent<int, int> heatlhChanged;
+    
+    
+    public void GameOver()
+    {
+        
+        gameOverScreen.Setup();
+    }
 
     public int MaxHealth
     {
@@ -27,6 +38,7 @@ public class Damageable : MonoBehaviour
             if (_health <= 0)
             {
                 IsAlive = false;
+                GameOver();
             }
         }
     }
