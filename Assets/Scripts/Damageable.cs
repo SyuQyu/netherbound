@@ -1,23 +1,16 @@
 ﻿using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
-
+using UnityEngine.SceneManagement;
 
 
 public class Damageable : MonoBehaviour
 {
-    public GameOverScript gameOverScreen;
     public UnityEvent<int, Vector2> damageableHit;
     private Animator animator;
     [SerializeField] private int _maxHealth = 100;
     public UnityEvent<int, int> heatlhChanged;
-    
-    
-    public void GameOver()
-    {
-        
-        gameOverScreen.Setup();
-    }
+    GameObject[] players;
 
     public int MaxHealth
     {
@@ -37,8 +30,17 @@ public class Damageable : MonoBehaviour
             // If health drops below 0, character is no longer alive
             if (_health <= 0)
             {
-                IsAlive = false;
-                GameOver();
+                players = GameObject.FindGameObjectsWithTag("Player");
+                if (players.Length == 0)
+                {
+                    IsAlive = false;
+                }
+                else
+                {
+                    IsAlive = false;
+                    SceneManager.LoadScene("Game Over");
+                }
+
             }
         }
     }
