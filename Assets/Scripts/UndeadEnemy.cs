@@ -1,20 +1,17 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections), typeof(Damageable))]
 public class UndeadEnemy : MonoBehaviour
 {
-    public float walkSpeed = 3f;
+    public float walkAcceleration = 3f;
+    public float maxSpeed = 3f;
     public float walkStopRate = 0.01f;
     public DetectionZone attackZone;
     public DetectionZone cliffDetectionZone;
     public bool die = true;
-    [SerializeField]
-    private UnityEvent onDied;
-    
+    [SerializeField] private UnityEvent onDied;
+
     private Rigidbody2D rb;
     private TouchingDirections touchingDirections;
     private Animator animator;
@@ -25,15 +22,17 @@ public class UndeadEnemy : MonoBehaviour
         Right,
         Left
     }
-    
-    public UnityEvent DiedEvent {
+
+    public UnityEvent DiedEvent
+    {
         get { return this.onDied; }
     }
-    
+
     private void OnDiedEvent()
     {
         var handler = this.onDied;
-        if (handler != null) {
+        if (handler != null)
+        {
             handler.Invoke();
         }
     }
@@ -85,14 +84,8 @@ public class UndeadEnemy : MonoBehaviour
 
     public float AttackCooldown
     {
-        get
-        {
-            return animator.GetFloat(AnimationStrings.attackCooldown);
-        }
-        private set
-        {
-            animator.SetFloat(AnimationStrings.attackCooldown, Mathf.Max(value, 0));
-        }
+        get { return animator.GetFloat(AnimationStrings.attackCooldown); }
+        private set { animator.SetFloat(AnimationStrings.attackCooldown, Mathf.Max(value, 0)); }
     }
 
     private void Awake()
@@ -107,19 +100,19 @@ public class UndeadEnemy : MonoBehaviour
     void Update()
     {
         HasTarget = attackZone.detectedColliders.Count > 0;
-        
-        if(AttackCooldown > 0)
+
+        if (AttackCooldown > 0)
             AttackCooldown -= Time.deltaTime;
     }
 
     private void FixedUpdate()
-    {        
+    {
         if (!damageable.IsAlive && die)
         {
             this.OnDiedEvent();
             die = false;
         }
-        
+
         if (touchingDirections.IsGrounded && touchingDirections.IsOnWall)
         {
             FlipDirection();
@@ -128,7 +121,10 @@ public class UndeadEnemy : MonoBehaviour
         if (!damageable.LockVelocity)
         {
             if (CanMove)
-                rb.velocity = new Vector2(walkSpeed * walkDirectionVector.x, rb.velocity.y);
+                // Accelerate towards max speed
+                rb.velocity = new Vector2(Mathf.Clamp(
+                    rb.velocity.x + (walkAcceleration * walkDirectionVector.x * Time.fixedDeltaTime),
+                    -maxSpeed, maxSpeed), rb.velocity.y);
             else
                 rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, 0, walkStopRate), rb.velocity.y);
         }
@@ -162,6 +158,4 @@ public class UndeadEnemy : MonoBehaviour
             FlipDirection();
         }
     }
-    
-    
 }
