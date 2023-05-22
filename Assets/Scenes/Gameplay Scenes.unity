@@ -689,6 +689,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3047793408423003913, guid: 552c5aefbaba6be4cbb7b6c6ebc753e3, type: 3}
   m_PrefabInstance: {fileID: 3047793409683307570}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1294449474 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1257751387025974306, guid: 552c5aefbaba6be4cbb7b6c6ebc753e3, type: 3}
+  m_PrefabInstance: {fileID: 3047793409683307570}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354e69e337ff0054a9013bdeef054130, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1492676384
 GameObject:
   m_ObjectHideFlags: 0
@@ -131612,6 +131623,10 @@ PrefabInstance:
       propertyPath: airWalkSpeed
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1505011671567274559, guid: 552c5aefbaba6be4cbb7b6c6ebc753e3, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3047793408423003912, guid: 552c5aefbaba6be4cbb7b6c6ebc753e3, type: 3}
       propertyPath: m_Size.x
       value: 0.85714287
@@ -131671,6 +131686,46 @@ PrefabInstance:
     - target: {fileID: 3047793408423003915, guid: 552c5aefbaba6be4cbb7b6c6ebc753e3, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6688750828993215675, guid: 552c5aefbaba6be4cbb7b6c6ebc753e3, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6688750828993215675, guid: 552c5aefbaba6be4cbb7b6c6ebc753e3, type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_ActionId
+      value: fa4901f0-4672-4bf8-8935-de4b3d329a98
+      objectReference: {fileID: 0}
+    - target: {fileID: 6688750828993215675, guid: 552c5aefbaba6be4cbb7b6c6ebc753e3, type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_ActionName
+      value: Player/Dash[/Keyboard/leftShift]
+      objectReference: {fileID: 0}
+    - target: {fileID: 6688750828993215675, guid: 552c5aefbaba6be4cbb7b6c6ebc753e3, type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6688750828993215675, guid: 552c5aefbaba6be4cbb7b6c6ebc753e3, type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6688750828993215675, guid: 552c5aefbaba6be4cbb7b6c6ebc753e3, type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1294449474}
+    - target: {fileID: 6688750828993215675, guid: 552c5aefbaba6be4cbb7b6c6ebc753e3, type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6688750828993215675, guid: 552c5aefbaba6be4cbb7b6c6ebc753e3, type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDash
+      objectReference: {fileID: 0}
+    - target: {fileID: 6688750828993215675, guid: 552c5aefbaba6be4cbb7b6c6ebc753e3, type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6688750828993215675, guid: 552c5aefbaba6be4cbb7b6c6ebc753e3, type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6788813122949000800, guid: 552c5aefbaba6be4cbb7b6c6ebc753e3, type: 3}
       propertyPath: m_Enabled
