@@ -10,7 +10,6 @@ public class Damageable : MonoBehaviour
     private Animator animator;
     [SerializeField] private int _maxHealth = 100;
     public UnityEvent<int, int> heatlhChanged;
-    GameObject[] players;
 
     public int MaxHealth
     {
@@ -30,16 +29,10 @@ public class Damageable : MonoBehaviour
             // If health drops below 0, character is no longer alive
             if (_health <= 0)
             {
-                players = GameObject.FindGameObjectsWithTag("Player");
-                if (players.Length == 0)
-                {
-                    IsAlive = false;
-                }
-                else
-                {
-                    IsAlive = false;
-                    SceneManager.LoadScene("Game Over");
-                }
+                IsAlive = false;
+
+                    // SceneManager.LoadScene("Game Over");
+                
 
             }
         }
