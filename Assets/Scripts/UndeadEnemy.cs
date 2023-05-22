@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections), typeof(Damageable))]
 public class UndeadEnemy : MonoBehaviour
@@ -17,21 +16,6 @@ public class UndeadEnemy : MonoBehaviour
     private Animator animator;
     private Damageable damageable;
 
-    [SerializeField]
-    private UnityEvent onDied;
-    
-    public UnityEvent DiedEvent {
-        get { return this.onDied; }
-    }
-    
-    private void OnDiedEvent()
-    {
-        var handler = this.onDied;
-        if (handler != null) {
-            handler.Invoke();
-        }
-    }
-    
     public enum WalkableDirection
     {
         Right,

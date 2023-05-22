@@ -6,7 +6,7 @@ public class Damageable : MonoBehaviour
     public UnityEvent<int, Vector2> damageableHit;
     private Animator animator;
     [SerializeField] private int _maxHealth = 100;
-    
+
     public int MaxHealth
     {
         get { return _maxHealth; }
@@ -14,7 +14,7 @@ public class Damageable : MonoBehaviour
     }
 
     [SerializeField] private int _health = 100;
-    
+
     public int Health
     {
         get { return _health; }
