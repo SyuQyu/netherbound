@@ -15,6 +15,6 @@ public class SoulSpawn : MonoBehaviour
 
     public void Reward()
     {
-        Instantiate(this.prefab, new Vector3(this.transform.position.x, this.transform.position.y - SpawnY, this.transform.position.z), Quaternion.identity);
+        Instantiate(this.prefab, this.transform.position, Quaternion.identity);
     }
 }

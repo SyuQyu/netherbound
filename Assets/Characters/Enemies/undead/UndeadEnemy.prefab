@@ -387,10 +387,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ed70504dda19947b21ba0efb0d2b75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 3
+  walkAcceleration: 50
+  maxSpeed: 3
   walkStopRate: 0.05
   attackZone: {fileID: 3183916776141601817}
   cliffDetectionZone: {fileID: 7570194054062518888}
+  die: 1
   onDied:
     m_PersistentCalls:
       m_Calls:
@@ -488,6 +490,9 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _maxHealth: 100
+  heatlhChanged:
+    m_PersistentCalls:
+      m_Calls: []
   _health: 100
   _isAlive: 1
   isInvicible: 0
@@ -504,6 +509,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4338d69f8538e0b48b484c77402e9589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimumCount: 3
-  maximumCount: 5
   prefab: {fileID: 3384341370989663805, guid: 6a3f72bd16f3b2340817981228008415, type: 3}
+  SpawnY: 0.7
