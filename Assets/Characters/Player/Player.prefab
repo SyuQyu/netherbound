@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 6324762018571081898}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -130,6 +130,7 @@ MonoBehaviour:
   jumpImpulse: 8.5
   airWalkSpeed: 5
   _isMoving: 0
+  sm: {fileID: 0}
   _isFacingRight: 1
 --- !u!114 &6688750828993215675
 MonoBehaviour:
