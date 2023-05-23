@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isDashing;
     private float dashingPower = 10f;
     private float dashingTime = 0.2f;
-    private float dashingCooldown = 1f;
+    private float dashingCooldown = 3f;
 
     private Vector2 moveInput;
     private TouchingDirections touchingDirections;
@@ -27,11 +27,14 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
 
-    public SoulManager sm;
-
     public bool CanMove
     {
         get { return animator.GetBool(AnimationStrings.canMove); }
+    }
+    
+    public bool CanDash
+    {
+        get { return canDash; }
     }
 
     public bool IsAlive
@@ -187,7 +190,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && CanDash && IsAlive && !IsDashing)
         {
             StartCoroutine(Dash());
         }
@@ -203,7 +206,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Soul"))
         {
             Destroy(other.gameObject);
-            sm.soulCount++;
+            SoulManager.AddSoul();
         }
     }
 
