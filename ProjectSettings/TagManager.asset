@@ -57,6 +57,9 @@ TagManager:
   - name: trap
     uniqueID: 3135254243
     locked: 0
+  - name: Souls
+    uniqueID: 1743984005
+    locked: 0
   - name: enemy
     uniqueID: 3888570515
     locked: 0
