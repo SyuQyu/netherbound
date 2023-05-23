@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private TouchingDirections touchingDirections;
     private Damageable damageable;
-
+    
     [SerializeField] private bool _isMoving = false;
 
     private Rigidbody2D rb;
