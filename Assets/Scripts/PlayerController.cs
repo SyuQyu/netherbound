@@ -6,22 +6,28 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections), typeof(Damageable))]
 public class PlayerController : MonoBehaviour
 {
-   
     public float runSpeed = 5f;
     public float jumpImpulse = 10f;
     public float airWalkSpeed = 3f;
+
+    private bool canDash = true;
+    [SerializeField] private bool isDashing;
+    private float dashingPower = 10f;
+    private float dashingTime = 0.2f;
+    private float dashingCooldown = 1f;
+
     private Vector2 moveInput;
     private TouchingDirections touchingDirections;
     private Damageable damageable;
 
     [SerializeField] private bool _isMoving = false;
 
+    [SerializeField] private TrailRenderer tr;
+
     private Rigidbody2D rb;
     private Animator animator;
 
     public SoulManager sm;
-
-  
 
     public bool CanMove
     {
@@ -82,6 +88,17 @@ public class PlayerController : MonoBehaviour
             animator.SetBool(AnimationStrings.isMoving, value);
         }
     }
+    
+    public bool IsDashing
+    {
+        get { return isDashing; }
+        private set
+        {
+            isDashing = value;
+            animator.SetBool(AnimationStrings.isDashing, value);
+            Debug.Log(animator.GetBool(AnimationStrings.isDashing));
+        }
+    }
 
     public bool _isFacingRight = true;
 
@@ -112,9 +129,11 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (IsDashing) return;
+
         if (!damageable.LockVelocity)
             rb.velocity = new Vector2(moveInput.x * CurrentMoveSpeed, rb.velocity.y);
-        
+
         animator.SetFloat(AnimationStrings.yVelocity, rb.velocity.y);
     }
 
@@ -166,6 +185,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnDash(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            StartCoroutine(Dash());
+        }
+    }
+
     public void OnHit(int damage, Vector2 knockback)
     {
         rb.velocity = new Vector2(knockback.x, rb.velocity.y + knockback.y);
@@ -178,5 +205,23 @@ public class PlayerController : MonoBehaviour
             Destroy(other.gameObject);
             sm.soulCount++;
         }
+    }
+
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        IsDashing = true;
+        float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0f;
+        rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+
+        tr.emitting = true;
+        yield return new WaitForSeconds(dashingTime);
+        tr.emitting = false;
+
+        rb.gravityScale = originalGravity;
+        IsDashing = false;
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
     }
 }
