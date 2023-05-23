@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections), typeof(Damageable))]
 public class PlayerController : MonoBehaviour
 {
+   
     public float runSpeed = 5f;
     public float jumpImpulse = 10f;
     public float airWalkSpeed = 3f;
@@ -19,6 +20,8 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     public SoulManager sm;
+
+  
 
     public bool CanMove
     {

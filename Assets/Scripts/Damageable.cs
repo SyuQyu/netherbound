@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Threading;
+using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+
 
 public class Damageable : MonoBehaviour
 {
@@ -27,6 +30,10 @@ public class Damageable : MonoBehaviour
             if (_health <= 0)
             {
                 IsAlive = false;
+
+                    // SceneManager.LoadScene("Game Over");
+                
+
             }
         }
     }
