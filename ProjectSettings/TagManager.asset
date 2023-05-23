@@ -45,3 +45,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: particle system
+    uniqueID: 1505100675
+    locked: 0
+  - name: ground
+    uniqueID: 3100431799
+    locked: 0
+  - name: trap
+    uniqueID: 3135254243
+    locked: 0
+  - name: enemy
+    uniqueID: 3888570515
+    locked: 0
+  - name: player
+    uniqueID: 3373474333
+    locked: 0
