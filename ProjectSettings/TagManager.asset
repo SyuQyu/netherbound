@@ -48,6 +48,9 @@ TagManager:
   - name: particle system
     uniqueID: 1505100675
     locked: 0
+  - name: stone assets
+    uniqueID: 1158032547
+    locked: 0
   - name: ground
     uniqueID: 3100431799
     locked: 0
