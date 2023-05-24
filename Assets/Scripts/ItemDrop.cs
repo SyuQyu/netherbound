@@ -12,6 +12,6 @@ public class ItemDrop : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         
         // ini supaya pas drop soulnya, dia agak loncat dikit baru jatuh
-        // rb.AddForce(Vector2.up * dropForce, ForceMode2D.Impulse);
+        rb.AddForce(Vector2.up * dropForce, ForceMode2D.Impulse);
     }
 }
