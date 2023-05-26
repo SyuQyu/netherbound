@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections), typeof(Damageable))]
 public class PlayerController : MonoBehaviour
@@ -152,6 +153,11 @@ public class PlayerController : MonoBehaviour
 
         if (!damageable.LockVelocity)
             rb.velocity = new Vector2(moveInput.x * CurrentMoveSpeed, rb.velocity.y);
+
+        if (!damageable.IsAlive)
+        {
+            SceneManager.LoadScene("Game Over");
+        }
 
         animator.SetFloat(AnimationStrings.yVelocity, rb.velocity.y);
     }
