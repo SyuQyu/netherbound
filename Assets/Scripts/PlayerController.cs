@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -26,7 +25,11 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
-
+    
+    public float heavyAttackChargeTime = 2f; // Waktu penahanan tombol Q sebelum serangan berat
+    private bool isChargingHeavyAttack = false;
+    private float currentChargeTime = 0f;
+    
     public bool CanMove
     {
         get { return animator.GetBool(AnimationStrings.canMove); }
@@ -99,7 +102,16 @@ public class PlayerController : MonoBehaviour
         {
             isDashing = value;
             animator.SetBool(AnimationStrings.isDashing, value);
-            Debug.Log(animator.GetBool(AnimationStrings.isDashing));
+        }
+    }
+    
+    public bool IsChargingHeavyAttack
+    {
+        get { return isChargingHeavyAttack; }
+        private set
+        {
+            isChargingHeavyAttack = value;
+            animator.SetBool(AnimationStrings.isChargingHeavyAttack, value);
         }
     }
 
@@ -128,6 +140,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isChargingHeavyAttack)
+        {
+            currentChargeTime += Time.deltaTime;
+        }
     }
 
     private void FixedUpdate()
@@ -200,6 +216,32 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = new Vector2(knockback.x, rb.velocity.y + knockback.y);
     }
+    
+    public void OnHeavyAttack(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            IsChargingHeavyAttack = true;
+            animator.SetTrigger(AnimationStrings.heavyAttackTrigger);
+            animator.SetBool(AnimationStrings.isChargingHeavyAttack, IsChargingHeavyAttack);
+            currentChargeTime = 0f;
+        }
+        else if (context.canceled)
+        {
+            if (isChargingHeavyAttack)
+            {
+                if (currentChargeTime >= heavyAttackChargeTime)
+                {
+                    animator.SetTrigger(AnimationStrings.heavyAttackTrigger);
+                    StartCoroutine(MovePlayerForward());
+                }
+                
+                IsChargingHeavyAttack = false;
+                animator.SetBool(AnimationStrings.isChargingHeavyAttack, IsChargingHeavyAttack);
+                currentChargeTime = 0f; 
+            }
+        }
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -226,5 +268,53 @@ public class PlayerController : MonoBehaviour
         IsDashing = false;
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
+    }
+    
+    private IEnumerator MovePlayerForward()
+    {
+        float moveDistance = 0.25f; // Jarak yang akan ditempuh dalam setiap langkah maju
+        float moveDuration = 0.0625f; // Durasi setiap langkah maju
+        int totalSteps = 13; // Jumlah total langkah maju
+        
+        Vector2 startPosition = transform.position; // Posisi awal player
+        
+        for (int i = 0; i < totalSteps; i++)
+        {
+            // Menghitung posisi target untuk langkah maju saat ini
+            Vector2 targetPosition = startPosition + new Vector2(moveDistance * (i + 1) * (IsFacingRight ? 1f : -1f), 0f);
+
+            // Bergerak secara langsung ke posisi target dengan durasi moveDuration
+            yield return MoveToPosition(targetPosition, moveDuration);
+        }
+
+        // Menghentikan pergerakan player setelah selesai langkah maju
+        rb.velocity = Vector2.zero;
+    }
+    
+    private IEnumerator MoveToPosition(Vector2 targetPosition, float duration)
+    {
+        float elapsedTime = 0f;
+        Vector2 startingPosition = transform.position;
+
+        while (elapsedTime < duration)
+        {
+            // Menghitung persentase kemajuan pergerakan
+            float t = elapsedTime / duration;
+
+            // Menginterpolasi posisi player antara startingPosition dan targetPosition
+            Vector2 newPosition = Vector2.Lerp(startingPosition, targetPosition, t);
+
+            // Menggerakkan player ke posisi baru secara langsung
+            rb.position = newPosition;
+
+            // Mengupdate waktu yang telah berlalu
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        // Mengatur posisi player secara akurat ke targetPosition setelah durasi selesai
+        // Menggerakkan player ke posisi baru secara langsung
+        rb.position = targetPosition;
     }
 }

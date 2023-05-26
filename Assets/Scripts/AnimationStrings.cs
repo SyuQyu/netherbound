@@ -7,10 +7,12 @@
     internal static string isOnWall = "isOnWall";
     internal static string isOnCeiling = "isOnCeiling";
     internal static string attackTrigger = "attack";
+    internal static string heavyAttackTrigger = "heavyAttack";
     internal static string canMove = "canMove";
     internal static string hasTarget = "hasTarget";
     internal static string isAlive = "isAlive";
     internal static string isDashing = "isDashing";
+    public static string isChargingHeavyAttack = "isChargingHeavyAttack";
     public static string isHit = "isHit";
     public static string hitTrigger = "hit";
     public static string lockVelocity = "lockVelocity";
