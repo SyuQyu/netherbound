@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
@@ -32,8 +31,6 @@ public class Damageable : MonoBehaviour
                 IsAlive = false;
 
                     // SceneManager.LoadScene("Game Over");
-                
-
             }
         }
     }

@@ -15,7 +15,6 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         gameCanvas = FindObjectOfType<Canvas>();
-        
     }
 
     private void OnEnable()
