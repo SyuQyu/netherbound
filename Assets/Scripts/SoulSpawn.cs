@@ -5,7 +5,6 @@ using UnityEngine;
 public class SoulSpawn : MonoBehaviour
 {
     [SerializeField] private GameObject prefab = null;
-    [SerializeField] public float SpawnY = 2;
 
     public GameObject Prefab
     {
