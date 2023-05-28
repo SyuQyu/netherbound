@@ -9,7 +9,12 @@ public class PlayerController : MonoBehaviour
     public float runSpeed = 5f;
     public float jumpImpulse = 10f;
     public float airWalkSpeed = 3f;
-
+    
+    [SerializeField] private AudioSource footstepAudioSource; // Komponen AudioSource untuk audio footsteps
+    public AudioClip footstepSound; // Suara footsteps
+    private float footstepDelay = 0.35f; // Jeda antara pemutaran suara footsteps
+    private float nextFootstepTime = 0f; // Waktu berikutnya untuk memainkan suara footsteps
+    
     private bool canDash = true;
     [SerializeField] private bool isDashing;
     private float dashingPower = 10f;
@@ -30,6 +35,10 @@ public class PlayerController : MonoBehaviour
     public float heavyAttackChargeTime = 2f; // Waktu penahanan tombol Q sebelum serangan berat
     private bool isChargingHeavyAttack = false;
     private float currentChargeTime = 0f;
+    
+    private float moveDistance; // Jarak yang akan ditempuh dalam setiap langkah maju
+    private float moveDuration; // Durasi setiap langkah maju
+    private int totalSteps; // Jumlah total langkah maju
     
     public bool CanMove
     {
@@ -59,30 +68,12 @@ public class PlayerController : MonoBehaviour
     {
         get
         {
-            if (CanMove)
+            if (!CanMove || touchingDirections.IsOnWall)
             {
-                if (!touchingDirections.IsOnWall)
-                {
-                    if (touchingDirections.IsGrounded)
-                    {
-                        return runSpeed;
-                    }
-                    else
-                    {
-                        //air move
-                        return airWalkSpeed;
-                    }
-                }
-                else
-                {
-                    return 0;
-                }
+                return 0f;
             }
-            else
-            {
-                // Movement locked
-                return 0;
-            }
+
+            return touchingDirections.IsGrounded ? runSpeed : airWalkSpeed;
         }
     }
 
@@ -141,6 +132,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (IsMoving && CanMove && touchingDirections.IsGrounded && !IsDashing && IsAlive)
+        {
+            if (Time.time >= nextFootstepTime)
+            {
+                footstepAudioSource.clip = footstepSound;
+                footstepAudioSource.Play();
+                nextFootstepTime = Time.time + footstepDelay;
+            }
+        }
+        
         if (isChargingHeavyAttack)
         {
             currentChargeTime += Time.deltaTime;
@@ -207,6 +208,14 @@ public class PlayerController : MonoBehaviour
         if (context.started)
         {
             animator.SetTrigger(AnimationStrings.attackTrigger);
+
+            if (!IsDashing && touchingDirections.IsGrounded && IsAlive)
+            {
+                moveDistance = 0.33f; // Jarak yang akan ditempuh dalam setiap langkah maju
+                moveDuration = 0.1f; // Durasi setiap langkah maju
+                totalSteps = 1; // Jumlah total langkah maju
+                StartCoroutine(MovePlayerForward(moveDistance, moveDuration, totalSteps));
+            }
         }
     }
 
@@ -239,7 +248,10 @@ public class PlayerController : MonoBehaviour
                 if (currentChargeTime >= heavyAttackChargeTime)
                 {
                     animator.SetTrigger(AnimationStrings.heavyAttackTrigger);
-                    StartCoroutine(MovePlayerForward());
+                    moveDistance = 0.25f; // Jarak yang akan ditempuh dalam setiap langkah maju
+                    moveDuration = 0.0625f; // Durasi setiap langkah maju
+                    totalSteps = 13; // Jumlah total langkah maju
+                    StartCoroutine(MovePlayerForward(moveDistance, moveDuration, totalSteps));
                 }
                 
                 IsChargingHeavyAttack = false;
@@ -276,12 +288,8 @@ public class PlayerController : MonoBehaviour
         canDash = true;
     }
     
-    private IEnumerator MovePlayerForward()
+    private IEnumerator MovePlayerForward(float moveDistance, float moveDuration, int totalSteps)
     {
-        float moveDistance = 0.25f; // Jarak yang akan ditempuh dalam setiap langkah maju
-        float moveDuration = 0.0625f; // Durasi setiap langkah maju
-        int totalSteps = 13; // Jumlah total langkah maju
-        
         Vector2 startPosition = transform.position; // Posisi awal player
         
         for (int i = 0; i < totalSteps; i++)

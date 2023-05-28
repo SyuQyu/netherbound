@@ -16,6 +16,10 @@ public class UndeadEnemy : MonoBehaviour
     private TouchingDirections touchingDirections;
     private Animator animator;
     private Damageable damageable;
+    
+    public AudioClip[] hitSounds;
+    private AudioSource audioSource;
+
 
     public enum WalkableDirection
     {
@@ -94,6 +98,7 @@ public class UndeadEnemy : MonoBehaviour
         touchingDirections = GetComponent<TouchingDirections>();
         animator = GetComponent<Animator>();
         damageable = GetComponent<Damageable>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -149,6 +154,13 @@ public class UndeadEnemy : MonoBehaviour
     public void OnHit(int damage, Vector2 knockback)
     {
         rb.velocity = new Vector2(knockback.x, rb.velocity.y + knockback.y);
+        
+        if (hitSounds.Length > 0)
+        {
+            int randomIndex = Random.Range(0, hitSounds.Length);
+            AudioClip hitSound = hitSounds[randomIndex];
+            audioSource.PlayOneShot(hitSound);
+        }
     }
 
     public void OnCliffDetected()
