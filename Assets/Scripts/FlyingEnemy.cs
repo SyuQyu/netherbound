@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public class FlyingEnemy : MonoBehaviour
 {
-    public float waypointReachedDistance = 0.1f;
+    public float waypointReachedDistance = 0.2f;
     public float flightSpeed = 2f;
     public DetectionZone biteDetectionZone;
     public List<Transform> waypoints;
