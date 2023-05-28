@@ -43,6 +43,8 @@ public class BackgroundMusic : MonoBehaviour
         Debug.Log("Scene Loaded: " + scene.name);
         Debug.Log("MusicClips Length: " + MusicClips.Length);
 
+        if (source == null) return;
+        
         // Plays different music in different scenes
         switch (scene.name)
         {

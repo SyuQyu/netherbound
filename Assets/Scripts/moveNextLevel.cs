@@ -49,7 +49,7 @@ public class moveNextLevel : MonoBehaviour
         }
         else
         {
-            Debug.Log("soul tidak tercukupi" + HowManyEnemies + SoulManager.soulCount);
+            Debug.Log("soul tidak tercukupi, expected: " + HowManyEnemies + ", " + SoulManager.soulCount);
         }
     }
 }
