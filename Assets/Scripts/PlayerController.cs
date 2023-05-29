@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections), typeof(Damageable))]
 public class PlayerController : MonoBehaviour
@@ -9,12 +10,12 @@ public class PlayerController : MonoBehaviour
     public float runSpeed = 5f;
     public float jumpImpulse = 10f;
     public float airWalkSpeed = 3f;
-    
-    [SerializeField] private AudioSource footstepAudioSource; // Komponen AudioSource untuk audio footsteps
+
+    [SerializeField] private AudioSource audioSource; // Komponen AudioSource untuk audio footsteps
     public AudioClip footstepSound; // Suara footsteps
     private float footstepDelay = 0.35f; // Jeda antara pemutaran suara footsteps
     private float nextFootstepTime = 0f; // Waktu berikutnya untuk memainkan suara footsteps
-    
+
     private bool canDash = true;
     [SerializeField] private bool isDashing;
     private float dashingPower = 10f;
@@ -24,27 +25,35 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private TouchingDirections touchingDirections;
     private Damageable damageable;
-    
+
     [SerializeField] private bool _isMoving = false;
 
     [SerializeField] private TrailRenderer tr;
 
     private Rigidbody2D rb;
     private Animator animator;
-    
+
+    private bool isAttack = false;
     public float heavyAttackChargeTime = 2f; // Waktu penahanan tombol Q sebelum serangan berat
     private bool isChargingHeavyAttack = false;
     private float currentChargeTime = 0f;
-    
+
     private float moveDistance; // Jarak yang akan ditempuh dalam setiap langkah maju
     private float moveDuration; // Durasi setiap langkah maju
     private int totalSteps; // Jumlah total langkah maju
+
+    public ParticleSystem dust;
+    public ParticleSystem lightningFx;
+    private bool isParticleFXPlayed = false;
+
+    public AudioClip lightningZapSound;
+    private bool isSoundPlayed = false;
     
     public bool CanMove
     {
         get { return animator.GetBool(AnimationStrings.canMove); }
     }
-    
+
     public bool CanDash
     {
         get { return canDash; }
@@ -86,7 +95,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool(AnimationStrings.isMoving, value);
         }
     }
-    
+
     public bool IsDashing
     {
         get { return isDashing; }
@@ -96,7 +105,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool(AnimationStrings.isDashing, value);
         }
     }
-    
+
     public bool IsChargingHeavyAttack
     {
         get { return isChargingHeavyAttack; }
@@ -136,15 +145,25 @@ public class PlayerController : MonoBehaviour
         {
             if (Time.time >= nextFootstepTime)
             {
-                footstepAudioSource.clip = footstepSound;
-                footstepAudioSource.Play();
+                // Untuk memberikan SFX footstep Yuno
+                audioSource.clip = footstepSound;
+                audioSource.Play();
                 nextFootstepTime = Time.time + footstepDelay;
             }
         }
-        
+
         if (isChargingHeavyAttack)
         {
             currentChargeTime += Time.deltaTime;
+            if (currentChargeTime >= heavyAttackChargeTime && !isParticleFXPlayed && !isSoundPlayed)
+            {
+                audioSource.clip = lightningZapSound;
+                audioSource.Play();
+                isSoundPlayed = true;
+                
+                lightningFx.Play();
+                isParticleFXPlayed = true;
+            }
         }
     }
 
@@ -153,7 +172,10 @@ public class PlayerController : MonoBehaviour
         if (IsDashing) return;
 
         if (!damageable.LockVelocity)
+        {
+            CreateDust();
             rb.velocity = new Vector2(moveInput.x * CurrentMoveSpeed, rb.velocity.y);
+        }
 
         if (!damageable.IsAlive)
         {
@@ -195,10 +217,10 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        // TODO Check if alive as well
-        if (context.started && touchingDirections.IsGrounded && CanMove)
+        if (context.started && touchingDirections.IsGrounded && CanMove && IsAlive)
         {
             animator.SetTrigger(AnimationStrings.jumpTrigger);
+            CreateDust();
             rb.velocity = new Vector2(rb.velocity.x, jumpImpulse);
         }
     }
@@ -208,7 +230,8 @@ public class PlayerController : MonoBehaviour
         if (context.started)
         {
             animator.SetTrigger(AnimationStrings.attackTrigger);
-
+            isAttack = true;
+            
             if (!IsDashing && touchingDirections.IsGrounded && IsAlive)
             {
                 moveDistance = 0.33f; // Jarak yang akan ditempuh dalam setiap langkah maju
@@ -217,6 +240,8 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(MovePlayerForward(moveDistance, moveDuration, totalSteps));
             }
         }
+
+        isAttack = false;
     }
 
     public void OnDash(InputAction.CallbackContext context)
@@ -231,7 +256,7 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = new Vector2(knockback.x, rb.velocity.y + knockback.y);
     }
-    
+
     public void OnHeavyAttack(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -243,21 +268,23 @@ public class PlayerController : MonoBehaviour
         }
         else if (context.canceled)
         {
-            if (isChargingHeavyAttack)
+            if (!isChargingHeavyAttack) return;
+            
+            if (currentChargeTime >= heavyAttackChargeTime)
             {
-                if (currentChargeTime >= heavyAttackChargeTime)
-                {
-                    animator.SetTrigger(AnimationStrings.heavyAttackTrigger);
-                    moveDistance = 0.25f; // Jarak yang akan ditempuh dalam setiap langkah maju
-                    moveDuration = 0.0625f; // Durasi setiap langkah maju
-                    totalSteps = 13; // Jumlah total langkah maju
-                    StartCoroutine(MovePlayerForward(moveDistance, moveDuration, totalSteps));
-                }
-                
-                IsChargingHeavyAttack = false;
-                animator.SetBool(AnimationStrings.isChargingHeavyAttack, IsChargingHeavyAttack);
-                currentChargeTime = 0f; 
+                animator.SetTrigger(AnimationStrings.heavyAttackTrigger);
+                moveDistance = 0.25f; // Jarak yang akan ditempuh dalam setiap langkah maju
+                moveDuration = 0.0625f; // Durasi setiap langkah maju
+                totalSteps = 13; // Jumlah total langkah maju
+                StartCoroutine(MovePlayerForward(moveDistance, moveDuration, totalSteps));
             }
+
+            IsChargingHeavyAttack = false;
+            animator.SetBool(AnimationStrings.isChargingHeavyAttack, IsChargingHeavyAttack);
+            currentChargeTime = 0f;
+            
+            isParticleFXPlayed = false;
+            isSoundPlayed = false;
         }
     }
 
@@ -287,15 +314,16 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
-    
+
     private IEnumerator MovePlayerForward(float moveDistance, float moveDuration, int totalSteps)
     {
         Vector2 startPosition = transform.position; // Posisi awal player
-        
+
         for (int i = 0; i < totalSteps; i++)
         {
             // Menghitung posisi target untuk langkah maju saat ini
-            Vector2 targetPosition = startPosition + new Vector2(moveDistance * (i + 1) * (IsFacingRight ? 1f : -1f), 0f);
+            Vector2 targetPosition =
+                startPosition + new Vector2(moveDistance * (i + 1) * (IsFacingRight ? 1f : -1f), 0f);
 
             // Bergerak secara langsung ke posisi target dengan durasi moveDuration
             yield return MoveToPosition(targetPosition, moveDuration);
@@ -304,7 +332,7 @@ public class PlayerController : MonoBehaviour
         // Menghentikan pergerakan player setelah selesai langkah maju
         rb.velocity = Vector2.zero;
     }
-    
+
     private IEnumerator MoveToPosition(Vector2 targetPosition, float duration)
     {
         float elapsedTime = 0f;
@@ -330,5 +358,11 @@ public class PlayerController : MonoBehaviour
         // Mengatur posisi player secara akurat ke targetPosition setelah durasi selesai
         // Menggerakkan player ke posisi baru secara langsung
         rb.position = targetPosition;
+    }
+
+    private void CreateDust()
+    {
+        if (IsMoving && touchingDirections.IsGrounded && !IsDashing && IsAlive && !isAttack)
+            dust.Play();
     }
 }
