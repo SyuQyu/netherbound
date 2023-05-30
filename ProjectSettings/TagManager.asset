@@ -52,11 +52,11 @@ TagManager:
   - name: stone assets
     uniqueID: 1158032547
     locked: 0
-  - name: ground
-    uniqueID: 3100431799
-    locked: 0
   - name: trap
     uniqueID: 3135254243
+    locked: 0
+  - name: ground
+    uniqueID: 3100431799
     locked: 0
   - name: Souls
     uniqueID: 1743984005
