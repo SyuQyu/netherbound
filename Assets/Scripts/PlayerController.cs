@@ -18,6 +18,10 @@ public class PlayerController : MonoBehaviour
 
     private bool canDash = true;
     [SerializeField] private bool isDashing;
+    
+    private bool doubleJump;
+    private int pressedButoon;
+    
     private float dashingPower = 10f;
     private float dashingTime = 0.2f;
     private float dashingCooldown = 3f;
@@ -222,6 +226,19 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger(AnimationStrings.jumpTrigger);
             CreateDust();
             rb.velocity = new Vector2(rb.velocity.x, jumpImpulse);
+            doubleJump = true;
+        } else if (context.started && CanMove && IsAlive && doubleJump)
+        {
+            animator.SetTrigger(AnimationStrings.jumpTrigger);
+            CreateDust();
+            rb.velocity = new Vector2(rb.velocity.x, jumpImpulse * 0.7f);
+            doubleJump = false;
+            pressedButoon = 2;
+        }
+
+        if (pressedButoon == 2)
+        {
+            pressedButoon = 0;
         }
     }
 
