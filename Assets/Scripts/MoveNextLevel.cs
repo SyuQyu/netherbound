@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MoveNextLevel : MonoBehaviour
 {
     public GameObject enemies;
     private int HowManyEnemies;
+    public int currentLevelIndex = 0;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -13,7 +15,20 @@ public class MoveNextLevel : MonoBehaviour
         {
             if (SoulManager.soulCount == HowManyEnemies)
             {
+                currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
+                if (currentLevelIndex < SceneManager.GetActiveScene().buildIndex + 1)
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                }
+                else
+                {
+                    Debug.LogError("Next level does not exist!");
+                }
                 // buat level dulu baru gw settingin
+            }
+            else
+            {
+                Debug.Log("souls kurang");
             }
         }
     }

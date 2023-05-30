@@ -58,6 +58,9 @@ TagManager:
   - name: ground
     uniqueID: 3100431799
     locked: 0
+  - name: instruction
+    uniqueID: 3759761873
+    locked: 0
   - name: Souls
     uniqueID: 1743984005
     locked: 0
