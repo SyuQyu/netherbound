@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
     private int totalSteps; // Jumlah total langkah maju
 
     public ParticleSystem dust;
+    public ParticleSystem dustDoubleJump;
     public ParticleSystem lightningFx;
     private bool isParticleFXPlayed = false;
 
@@ -230,7 +231,7 @@ public class PlayerController : MonoBehaviour
         } else if (context.started && CanMove && IsAlive && doubleJump)
         {
             animator.SetTrigger(AnimationStrings.jumpTrigger);
-            CreateDust();
+            dustDoubleJump.Play();
             rb.velocity = new Vector2(rb.velocity.x, jumpImpulse * 0.7f);
             doubleJump = false;
             pressedButoon = 2;
