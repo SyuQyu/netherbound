@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     public float runSpeed = 5f;
     public float jumpImpulse = 10f;
+    public float doubleJumpImpulse = 1f;
     public float airWalkSpeed = 3f;
 
     [SerializeField] private AudioSource audioSource; // Komponen AudioSource untuk audio footsteps
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
     private bool isParticleFXPlayed = false;
 
     public AudioClip lightningZapSound;
+    public AudioClip doubleJumpSound;
     private bool isSoundPlayed = false;
     
     public bool CanMove
@@ -231,8 +233,12 @@ public class PlayerController : MonoBehaviour
         } else if (context.started && CanMove && IsAlive && doubleJump)
         {
             animator.SetTrigger(AnimationStrings.jumpTrigger);
+            
             dustDoubleJump.Play();
-            rb.velocity = new Vector2(rb.velocity.x, jumpImpulse * 0.7f);
+            audioSource.clip = doubleJumpSound;
+            audioSource.Play();
+            
+            rb.velocity = new Vector2(rb.velocity.x, jumpImpulse * doubleJumpImpulse);
             doubleJump = false;
             pressedButoon = 2;
         }
