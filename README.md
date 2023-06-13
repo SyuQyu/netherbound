@@ -1,10 +1,7 @@
 ## Contributors
+Thanks go to these wonderful people : 
+<a href="https://github.com/SyuQyu/netherbound/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=SyuQyu/netherbound" />
+</a>
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
+Made with [contrib.rocks](https://contrib.rocks).
